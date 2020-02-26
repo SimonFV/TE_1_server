@@ -10,72 +10,73 @@
 using namespace std;
  
 int run_server(){
-    // Create a socket
-    int listening = socket(AF_INET, SOCK_STREAM, 0);
-    if(listening == -1){
-        cerr << "Can't create a socket! Quitting" << endl;
+    //Crear el socket
+    int listen_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if(listen_socket == -1){
+        cerr<<"No se pudo crear el socket, cerrando..."<<endl;
         return -1;
     }
- 
-    // Bind the ip address and port to a socket
+
+    //Enlaza una ip y un numero de puerto al socket
     sockaddr_in hint;
     hint.sin_family = AF_INET;
     hint.sin_port = htons(54000);
     inet_pton(AF_INET, "0.0.0.0", &hint.sin_addr);
  
-    bind(listening, (sockaddr*)&hint, sizeof(hint));
+    bind(listen_socket, (sockaddr*)&hint, sizeof(hint));
  
-    // Tell Winsock the socket is for listening
-    listen(listening, SOMAXCONN);
+    //Dice Winsock el socket es para listening
+    listen(listen_socket, SOMAXCONN);
  
-    // Wait for a connection
-    cout<<"Waiting for client..."<<endl;
+    //Espera una conexion
+    cout<<"Esperando cliente..."<<endl;
     sockaddr_in client;
     socklen_t clientSize = sizeof(client);
  
-    int clientSocket = accept(listening, (sockaddr*)&client, &clientSize);
+    int clientSocket = accept(listen_socket, (sockaddr*)&client, &clientSize);
  
-    char host[NI_MAXHOST];      // Client's remote name
-    char service[NI_MAXSERV];   // Service (i.e. port) the client is connect on
+    char host[NI_MAXHOST];      //Nombre remoto del cliente
+    char service[NI_MAXSERV];   //Donde se conecta el cliente
  
-    memset(host, 0, NI_MAXHOST); // same as memset(host, 0, NI_MAXHOST);
+    memset(host, 0, NI_MAXHOST); //igual que memset(host, 0, NI_MAXHOST);
     memset(service, 0, NI_MAXSERV);
  
     if(getnameinfo((sockaddr*)&client, sizeof(client), host, NI_MAXHOST, service, NI_MAXSERV, 0) == 0){
-        cout << host << " connected on port " << service << endl;
+        cout << host << " conectado en el puerto " << service << endl;
     }else{
         inet_ntop(AF_INET, &client.sin_addr, host, NI_MAXHOST);
-        cout << host << " connected on port " << ntohs(client.sin_port) << endl;
+        cout << host << " conectado en el puerto " << ntohs(client.sin_port) << endl;
     }
  
-    // Close listening socket
-    close(listening);
+    //Cierra el socket para listening
+    close(listen_socket);
 
-    // While loop: accept and echo message back to client
+    // While loop: Acepta y devuelve el mismo mensaje del cliente
     char buf[4096];
  
     while (true){
         memset(buf, 0, 4096);
  
-        // Wait for client to send data
+        //Espera que el cliente envie un dato
         int bytesReceived = recv(clientSocket, buf, 4096, 0);
         if (bytesReceived == -1){
-            cerr << "Error in recv(). Quitting" << endl;
+            cerr << "Error al recibir el mensaje" << endl;
             break;
         }
  
         if (bytesReceived == 0){
-            cout << "Client disconnected " << endl;
+            cout << "Cliente desconectado" << endl;
             break;
         }
- 
+        string message = "asd";
         cout << string(buf, 0, bytesReceived) << endl;
  
-        // Echo message back to client
-        send(clientSocket, buf, bytesReceived + 1, 0);
+        //Devuelve el mismo mensaje
+        //send(clientSocket, buf, bytesReceived + 1, 0); //retorna el mismo mensaje
+        send(clientSocket, message.c_str(), message.size() + 1, 0);
     }
  
-    // Close the socket
+    //cierra el socket
     close(clientSocket);
     
     return 0;
