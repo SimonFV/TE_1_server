@@ -1,10 +1,6 @@
 #include "/home/simon/Cpp/TE_1/TE_1_server/src/include/grafo.h"
 
 grafo::grafo(){
-
-}
-
-void grafo::start(){
     first=NULL;
 }
 
@@ -76,5 +72,18 @@ void grafo::new_arista(vertice *start, vertice *end, int peso){
 }
 
 void grafo::list_ady(){
-    
+    vertice *temp;
+    arista *aux;
+    temp = first;
+
+    while(temp!=NULL){
+        cout<<temp->name<<"[";
+        aux = temp->ady;
+        while(aux!=NULL){
+            cout<<"ar -> "<<aux->ady->name<<"; ";
+            aux = aux->next;
+        }
+        cout<<"]\n";
+        temp = temp->next;
+    }
 }

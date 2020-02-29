@@ -1,14 +1,5 @@
-#include <iostream>
-#include <sys/types.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <string.h>
-#include <string>
- 
-using namespace std;
- 
+#include "/home/simon/Cpp/TE_1/TE_1_server/src/include/grafo.h"
+
 int run_server(){
     //Crear el socket
     int listen_socket = socket(AF_INET, SOCK_STREAM, 0);
