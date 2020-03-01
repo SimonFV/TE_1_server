@@ -13,7 +13,7 @@ bool grafo::is_empty(){
 }
 
 int grafo::tamano(){
-    int cont;
+    int cont = 0;
     vertice *aux;
     aux = first;
     while(aux!=NULL){
@@ -33,6 +33,18 @@ vertice *grafo::get_vertice(string id){
         aux = aux->next;
     }
     return NULL;
+}
+
+bool grafo::exists(string name_s){
+    vertice *aux;
+    aux = first;
+    while(aux!=NULL){
+        if(aux->name==name_s){
+            return true;
+        }
+        aux = aux->next;
+    }
+    return false;
 }
 
 void grafo::new_vertice(string id){

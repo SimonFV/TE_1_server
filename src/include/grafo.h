@@ -10,6 +10,8 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include <string>
+#include <fstream>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -40,6 +42,7 @@ class grafo{
         bool is_empty();
         int tamano();
         vertice *get_vertice(string name);
+        bool exists(string name);
         void new_arista(vertice *start, vertice *end, int peso);
         void new_vertice(string name);
         void list_ady();
