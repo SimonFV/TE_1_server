@@ -1,12 +1,17 @@
 #include "/home/simon/Cpp/TE_1/TE_1_server/src/include/grafo.h"
 
-grafo *grafo::dijk(grafo *g, string start_s, string end_s){
-    //Lista de los nombres de los vertices que componen la ruta mas eficiente
-    grafo *ruta = new grafo;
-
+/**
+ * @brief Busca el camino mas optimo de un vertice a otro con el algoritmo Dijkstra
+ * @param g Puntero del grafo al que se desea aplicar el algoritmo
+ * @param start_s Nombre del vertice inicial
+ * @param end_s Nombre del vertice final
+ * @return Nombres de los vertices que componen la ruta, ademas del peso total
+ */
+string grafo::dijk(grafo *g, string start_s, string end_s){
+    string ruta = "";
     //vertice destino
     vertice *end = g->get_vertice(end_s);
-    
+    //vertice inicio
     vertice *start = g->get_vertice(start_s);
     start->temp = 0;
     start->is_final = true;
@@ -29,14 +34,21 @@ grafo *grafo::dijk(grafo *g, string start_s, string end_s){
     }
 
     vertice *run = end;
-    cout<<run->name<<" -> ";
+    ruta = " -> " + run->name;
     while(run->anterior!=NULL){
-        cout<<run->anterior->name<<" -> ";
+        ruta = " -> " + run->anterior->name + ruta;
         run = run->anterior;
     }
+    ruta = ruta + "  ; Peso total: " + to_string(end->temp);
+    g->reset();
     return ruta;
 }
 
+/**
+ * @brief Analiza cual es el vertice con el peso temporal menor para bloquearlo
+ * @param g Puntero del grafo al que se desea aplicar el algoritmo
+ * @return Puntero al vertice con el menor peso temporal
+ */
 vertice *grafo::menor(grafo *g){
     vertice *aux = g->first;
     while(aux!=NULL){

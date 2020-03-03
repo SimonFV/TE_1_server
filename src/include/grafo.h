@@ -17,7 +17,11 @@ using namespace std;
 
 class arista;
 
+/**
+ * @brief Clase que representa los vertices del grafo
+ */
 class vertice{
+    public:
     vertice *next;
     vertice *anterior = NULL;
     arista *ady;
@@ -27,18 +31,25 @@ class vertice{
     friend class grafo;
 };
 
-
+/**
+ * @brief Clase que representa las aristas del grafo
+ */
 class arista{
+    public:
     arista *next;
     vertice *ady;
     int peso;
     friend class grafo;
 };
 
+/**
+ * @brief Clase grafo que se construye dinamicamente a partir de vertices y aristas
+ */
 class grafo{
-    vertice *first;
     public:
+        vertice *first;
         grafo();
+        ~grafo();
         bool is_empty();
         int tamano();
         vertice *get_vertice(string name);
@@ -46,10 +57,10 @@ class grafo{
         void new_arista(vertice *start, vertice *end, int peso);
         void new_vertice(string name);
         void list_ady();
-        grafo *dijk(grafo *g, string start_s, string end_s);
+        string dijk(grafo *g, string start_s, string end_s);
         vertice *menor(grafo *g);
-        //void delete_vertice(string name);
-        //void delete_arista(vertice *start, vertice *end);
+        int get_position(string name);
+        void reset();
 };
 
 #endif

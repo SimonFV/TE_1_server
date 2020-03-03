@@ -1,17 +1,18 @@
 #include "/home/simon/Cpp/TE_1/TE_1_server/src/include/grafo.h"
 
-using namespace std;
-
-void run_server();
+void run_server(grafo *g1);
 void read(grafo *g1);
 
 int main(int argc, char const *argv[]){
-
     grafo *g1 = new grafo;
+    /**
+     * @note lee el archivo csv y genera el grafo
+     */
     read(g1);
-    g1->list_ady();
 
-    g1->dijk(g1, "v1", "v4");
-
+    /**
+     * @note inicia el servidor
+     */
+    run_server(g1);
     return 0;
 }
