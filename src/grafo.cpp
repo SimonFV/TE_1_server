@@ -42,13 +42,14 @@ int grafo::tamano(){
 }
 
 /**
- * @brief Establece a false el valor de la variable is_final de todos los vertices
+ * @brief Reestablece los valores de todos los vertices
  */
 void grafo::reset(){
     vertice *aux;
     aux = first;
     while(aux!=NULL){
         aux->is_final = false;
+        aux->temp = oo;
         aux = aux->next;
     }
 }

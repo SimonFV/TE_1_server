@@ -132,7 +132,6 @@ int run_server(grafo *g1){
      * @note Cierra el socket
      */
     close(clientSocket);
-    g1->~grafo();
     
     return 0;
 }
